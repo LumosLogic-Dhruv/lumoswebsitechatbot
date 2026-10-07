@@ -1,0 +1,20 @@
+{
+  "name": "lumoslogic-chatbot-api",
+  "version": "1.0.0",
+  "description": "IntelliQ AI chatbot backend for Lumos Logic — Gemini 2.5 Flash + Groq",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "groq-sdk": "^0.13.0"
+  }
+}
