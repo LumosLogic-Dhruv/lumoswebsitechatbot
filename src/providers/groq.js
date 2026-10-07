@@ -14,7 +14,7 @@ async function askGroq(message, history, systemPrompt) {
   ];
 
   const completion = await getClient().chat.completions.create({
-    model: 'llama-3.1-70b-versatile',
+    model: 'openai/gpt-oss-120b',
     messages,
     temperature: 0.7,
     max_tokens: 512,
