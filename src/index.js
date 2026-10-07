@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { SYSTEM_PROMPT } = require('./context');
-const { askGemini } = require('./providers/gemini');
 const { askGroq } = require('./providers/groq');
 
 const app = express();
@@ -53,20 +52,12 @@ app.post('/chat', async (req, res) => {
   // Keep only last 10 turns to avoid token bloat
   const trimmedHistory = Array.isArray(history) ? history.slice(-10) : [];
 
-  // ── Try Gemini 2.5 Flash → 2.0 Flash ──────────────────────────────────
-  try {
-    const { text, model } = await askGemini(enriched, trimmedHistory, SYSTEM_PROMPT);
-    return res.json({ reply: text, model });
-  } catch (geminiErr) {
-    console.warn('[Gemini] all models failed:', geminiErr.message, '— falling back to Groq');
-  }
-
-  // ── Fallback: Groq Llama 3.3 70B ───────────────────────────────────────
+  // ── Groq only (Gemini disabled) ─────────────────────────────────────────
   try {
     const reply = await askGroq(enriched, trimmedHistory, SYSTEM_PROMPT);
-    return res.json({ reply, model: 'groq-llama3.3-70b' });
+    return res.json({ reply, model: 'groq-gpt-oss-120b' });
   } catch (groqErr) {
-    console.error('[Groq] also failed:', groqErr.message);
+    console.error('[Groq] failed:', groqErr.message);
     return res.status(503).json({
       reply: "I'm having a little trouble right now. Please try again in a moment, or reach us directly at hello@lumoslogic.com or +91 7984774840.",
       model: 'fallback',
