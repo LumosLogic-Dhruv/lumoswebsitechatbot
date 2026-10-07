@@ -6,7 +6,7 @@ function getClient() {
   return client;
 }
 
-const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
+const GEMINI_MODELS = ['gemini-1.5-flash', 'gemini-1.5-flash-8b'];
 
 async function askGemini(message, history, systemPrompt) {
   const geminiHistory = history.map(h => ({
